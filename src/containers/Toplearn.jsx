@@ -1,12 +1,16 @@
 import React, { Fragment } from 'react';
 import Course from '../components/Courses/Course';
-
+import {Route, Routes} from 'react-router-dom';
 import MainLayout from '../components/layouts/MainLayout';
+import Login from '../components/Login/Login';
 
 const Toplearn = (props) => {
     return (
         <MainLayout>
-            <Course />
+            <Routes>
+                <Route path='/login'  element={<Login/>}/>
+                <Route path='/' element={<Course/>}/>
+            </Routes>
         </MainLayout>
 
 
