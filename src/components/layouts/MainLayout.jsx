@@ -4,12 +4,14 @@ import Header from '../common/Header';
 import MainNav from '../Navs/MainNav';
 import TopNav from '../Navs/TopNav';
 import { useLocation } from 'react-router';
+import { Helmet } from 'react-helmet';
 
 
 const MainLayout = (props) => {
     const {pathname} = useLocation()
     return (
         <Fragment>
+            <Helmet><title>خوردآموز تاپلرن</title></Helmet>
             <div className="landing-layer">
                 <div className="container">
                     <TopNav />

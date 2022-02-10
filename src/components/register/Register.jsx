@@ -1,12 +1,24 @@
-import React, { useState } from "react";
-import axios from "axios";
+import React, { useRef, useState } from "react";
+import SimpleReactValidator from "simple-react-validator";
 import { toast } from "react-toastify";
 import { registerUser } from "../../services/userService";
+import { Helmet } from "react-helmet";
 const Register = () => {
   const [fullname, setFullname] = useState("");
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
-
+  const [, forceUpdate] = useState();
+  const [policy, setPolicy] = useState();
+  const validator = useRef(
+    new SimpleReactValidator({
+      messages: {
+        required: "پر کردن این فیلد الزامی می باشد.",
+        min: "کمتر از 5 کاراکتر نباید باشد",
+        email: "ایمیل نوشته شده صحیح نمی باشد.",
+      },
+      element: (message) => <div style={{ color: "red" }}>{message}</div>,
+    })
+  );
   const reset = () => {
     setFullname("");
     setEmail("");
@@ -21,17 +33,25 @@ const Register = () => {
     };
 
     try {
-      const { status } = await registerUser(user)
-      if (status === 201) {
-        toast.success("کاربرد با موفقیت ساخته شد", {
-          position: "top-right",
-          closeOnClick: true,
-        });
-        reset();
+      if (validator.current.allValid()) {
+        const { status } = await registerUser(user);
+        if (status === 201) {
+          toast.success("کاربرد با موفقیت ساخته شد", {
+            position: "top-right",
+            closeOnClick: true,
+          });
+          reset();
+        }
+      } else {
+        validator.current.showMessages();
+        forceUpdate(1);
       }
     } catch (ex) {
       console.log(ex);
-      toast.error("مشکلی پیش آمده است!!", { position: 'top-right', closeOnClick: true })
+      toast.error("مشکلی پیش آمده است!!", {
+        position: "top-right",
+        closeOnClick: true,
+      });
     }
   };
 
@@ -41,6 +61,7 @@ const Register = () => {
         <header>
           <h2> عضویت در سایت </h2>
         </header>
+        <Helmet><title>تاپلرن | عضویت در سایت</title></Helmet>
 
         <div className="form-layer">
           <form onSubmit={(event) => handleSubmit(event)}>
@@ -50,12 +71,21 @@ const Register = () => {
               </span>
               <input
                 type="text"
+                name="fullname"
                 className="form-control"
                 placeholder="نام و نام خانوادگی"
                 aria-describedby="username"
                 value={fullname}
-                onChange={(e) => setFullname(e.target.value)}
+                onChange={(e) => {
+                  setFullname(e.target.value);
+                  validator.current.showMessageFor("fullname");
+                }}
               />
+              {validator.current.message(
+                "fullname",
+                fullname,
+                "required|min:5"
+              )}
             </div>
 
             <div className="input-group">
@@ -64,12 +94,17 @@ const Register = () => {
               </span>
               <input
                 type="text"
+                name="email"
                 className="form-control"
                 placeholder="ایمیل"
                 aria-describedby="email-address"
                 value={email}
-                onChange={(e) => setEmail(e.target.value)}
+                onChange={(e) => {
+                  setEmail(e.target.value);
+                  validator.current.showMessageFor("email");
+                }}
               />
+              {validator.current.message("email", email, "required|email")}
             </div>
 
             <div className="input-group">
@@ -78,18 +113,36 @@ const Register = () => {
               </span>
               <input
                 type="password"
+                name="password"
                 className="form-control"
                 placeholder="رمز عبور "
                 aria-describedby="password"
                 value={password}
-                onChange={(e) => setPassword(e.target.value)}
+                onChange={(e) => {
+                  setPassword(e.target.value);
+                  validator.current.showMessageFor("password");
+                }}
               />
+              {validator.current.message(
+                "password",
+                password,
+                "required|min:5"
+              )}
             </div>
 
             <div className="accept-rules">
               <label>
-                <input type="checkbox" name="" /> قوانین و مقررات سایت را
-                میپذیرم{" "}
+                <input
+                  type="checkbox"
+                  name="policy"
+                  value="policy"
+                  onChange={(e) => {
+                    setPolicy(e.currentTarget.checked);
+                    validator.current.showMessageFor("policy")
+                  }}
+                />{" "}
+                {validator.current.message("policy", policy, "required")}
+                قوانین و مقررات سایت را میپذیرم{" "}
               </label>
             </div>
 
