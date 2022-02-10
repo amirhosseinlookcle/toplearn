@@ -1,6 +1,7 @@
 import React, { useState } from "react";
 import axios from "axios";
 import { toast } from "react-toastify";
+import { registerUser } from "../../services/userService";
 const Register = () => {
   const [fullname, setFullname] = useState("");
   const [email, setEmail] = useState("");
@@ -11,39 +12,29 @@ const Register = () => {
     setEmail("");
     setPassword("");
   };
-  const handleSubmit = (event) => {
+  const handleSubmit = async (event) => {
     event.preventDefault();
-    axios
-      .post(
-        "https://toplearnapi.ghorbany.dev/api/register",
-        JSON.stringify(user),
-        {
-          headers: {
-            "Content-Type": "application/json",
-          },
-        }
-      )
-      .then(({ data, status }) => {
-        if (status === 201) {
-          toast.success("کاربرد با موفقیت ساخته شد", {
-            position: "top-right",
-            closeOnClick: true,
-          });
-          console.log(data);
-          reset();
-        }
-      })
-      .catch((ex) => {
-        console.log(ex);
-        toast.error("مشکلی پیش آمده است!!", {position: 'top-right', closeOnClick: true})
+    const user = {
+      fullname,
+      email,
+      password,
+    };
 
-      });
+    try {
+      const { status } = await registerUser(user)
+      if (status === 201) {
+        toast.success("کاربرد با موفقیت ساخته شد", {
+          position: "top-right",
+          closeOnClick: true,
+        });
+        reset();
+      }
+    } catch (ex) {
+      console.log(ex);
+      toast.error("مشکلی پیش آمده است!!", { position: 'top-right', closeOnClick: true })
+    }
   };
-  const user = {
-    fullname,
-    email,
-    password,
-  };
+
   return (
     <main className="client-page">
       <div className="container-content">
