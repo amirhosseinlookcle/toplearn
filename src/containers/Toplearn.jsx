@@ -5,6 +5,8 @@ import MainLayout from '../components/layouts/MainLayout';
 import Login from '../components/Login/Login';
 import Register from '../components/register/Register';
 import Archive from '../components/Courses/Archives';
+import Account from '../components/account/Account';
+import SingleCourse from '../components/Courses/SingleCourse';
 
 const Toplearn = (props) => {
     return (
@@ -14,7 +16,8 @@ const Toplearn = (props) => {
                 <Route path='/' element={<Course/>}/>
                 <Route path='/register' element={<Register/>}/>
                 <Route path='/archive' element={<Archive/>}/>
-
+                <Route path='/myaccount' element={<Account/>}/>
+                <Route path='/singlecourse' element={<SingleCourse/>}/>
             </Routes>
         </MainLayout>
 
