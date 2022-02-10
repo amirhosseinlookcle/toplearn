@@ -1,21 +1,43 @@
 import React, { useState } from "react";
-
+import axios from "axios";
+import { toast } from "react-toastify";
 const Register = () => {
   const [fullname, setFullname] = useState("");
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
 
   const reset = () => {
-      setFullname("");
-      setEmail("");
-      setPassword("");
-  }
+    setFullname("");
+    setEmail("");
+    setPassword("");
+  };
   const handleSubmit = (event) => {
     event.preventDefault();
-    alert("submitted");
-  console.log(user);
-  reset()
+    axios
+      .post(
+        "https://toplearnapi.ghorbany.dev/api/register",
+        JSON.stringify(user),
+        {
+          headers: {
+            "Content-Type": "application/json",
+          },
+        }
+      )
+      .then(({ data, status }) => {
+        if (status === 201) {
+          toast.success("کاربرد با موفقیت ساخته شد", {
+            position: "top-right",
+            closeOnClick: true,
+          });
+          console.log(data);
+          reset();
+        }
+      })
+      .catch((ex) => {
+        console.log(ex);
+        toast.error("مشکلی پیش آمده است!!", {position: 'top-right', closeOnClick: true})
 
+      });
   };
   const user = {
     fullname,
