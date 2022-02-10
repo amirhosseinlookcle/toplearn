@@ -1,11 +1,12 @@
 import React from 'react'
+import { NavLink } from 'react-router-dom';
 
 const Course = () => {
     return (
         <section className="terms-items">
             <header>
                 <h2> آخرین دوره های تاپ لرن </h2>
-                <a href=""> مشاهده همه دوره ها </a>
+                <NavLink to="/archive"> مشاهده همه دوره ها </NavLink>
             </header>
             <div className="row">
 
