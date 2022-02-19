@@ -1,7 +1,8 @@
 import React from 'react'
 import { NavLink, Link } from 'react-router-dom';
+import Pagination from '../common/Pagination';
 
-const Course = () => {
+const Course = ({ courses }) => {
     return (
         <section className="terms-items">
             <header>
@@ -10,84 +11,21 @@ const Course = () => {
             </header>
             <div className="row">
 
-                <div className="col-lg-3 col-md-4 col-sm-6 col-xs-12 term-col">
-                    <article>
-                        <Link to="singlecourse" className="img-layer"><img src="images/pic/1.jpg" /></Link>
-                        <h2><Link to="singlecourse"> آموزش متریال دیاین در زامارین </Link></h2>
-                        <span> رایگان </span>
-                        <i>1:52:32</i>
-                    </article>
-                </div>
+                {courses.map(course => {
+                    const { _id, imageUrl, title } = course
+                    return (
+                        <div key={_id} className="col-lg-3 col-md-4 col-sm-6 col-xs-12 term-col">
+                            <article>
+                                <Link to={`/singlecourse/${_id}`} className="img-layer"><img src={`https://toplearnapi.ghorbany.dev/${imageUrl}`} /></Link>
+                                <h2><Link to={`/singlecourse/${_id}`}> {title} </Link></h2>
+                                <span> رایگان </span>
+                                <i>1:52:32</i>
+                            </article>
+                        </div>
+                    )
+                })}
 
 
-                <div className="col-lg-3 col-md-4 col-sm-6 col-xs-12 term-col">
-                    <article>
-                        <Link to="singlecourse" className="img-layer"><img src="images/pic/2.jpg" /></Link>
-                        <h2><Link to="singlecourse"> آموزش متریال دیاین در زامارین </Link></h2>
-                        <span> رایگان </span>
-                        <i>1:52:32</i>
-                    </article>
-                </div>
-
-
-                <div className="col-lg-3 col-md-4 col-sm-6 col-xs-12 term-col">
-                    <article>
-                        <Link to="singlecourse" className="img-layer"><img src="images/pic/3.jpg" /></Link>
-                        <h2><Link to="singlecourse"> آموزش متریال دیاین در زامارین </Link></h2>
-                        <span> 150.000 تومان </span>
-                        <i>1:52:32</i>
-                    </article>
-                </div>
-
-
-                <div className="col-lg-3 col-md-4 col-sm-6 col-xs-12 term-col">
-                    <article>
-                        <Link to="singlecourse" className="img-layer"><img src="images/pic/4.jpg" /></Link>
-                        <h2><Link to="singlecourse"> آموزش متریال دیاین در زامارین </Link></h2>
-                        <span> رایگان </span>
-                        <i>1:52:32</i>
-                    </article>
-                </div>
-
-
-                <div className="col-lg-3 col-md-4 col-sm-6 col-xs-12 term-col">
-                    <article>
-                        <Link to="singlecourse" className="img-layer"><img src="images/pic/5.jpg" /></Link>
-                        <h2><Link to="singlecourse"> آموزش متریال دیاین در زامارین </Link></h2>
-                        <span> 15.000 تومان </span>
-                        <i>1:52:32</i>
-                    </article>
-                </div>
-
-
-                <div className="col-lg-3 col-md-4 col-sm-6 col-xs-12 term-col">
-                    <article>
-                        <Link to="singlecourse" className="img-layer"><img src="images/pic/6.jpg" /></Link>
-                        <h2><Link to="singlecourse"> آموزش متریال دیاین در زامارین </Link></h2>
-                        <span> رایگان </span>
-                        <i>1:52:32</i>
-                    </article>
-                </div>
-
-
-                <div className="col-lg-3 col-md-4 col-sm-6 col-xs-12 term-col">
-                    <article>
-                        <Link to="singlecourse" className="img-layer"><img src="images/pic/7.jpg" /></Link>
-                        <h2><Link to="singlecourse"> آموزش متریال دیاین در زامارین </Link></h2>
-                        <span> 20.000 تومان </span>
-                        <i>1:52:32</i>
-                    </article>
-                </div>
-
-
-                <div className="col-lg-3 col-md-4 col-sm-6 col-xs-12 term-col">
-                    <article>
-                        <Link to="singlecourse" className="img-layer"><img src="images/pic/8.jpg" /></Link>
-                        <h2><Link to="singlecourse"> آموزش متریال دیاین در زامارین </Link></h2>
-                        <span> 75.000 تومان </span>
-                        <i>1:52:32</i>
-                    </article>
-                </div>
 
             </div>
         </section>
